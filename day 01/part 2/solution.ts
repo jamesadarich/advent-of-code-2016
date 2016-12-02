@@ -8,10 +8,16 @@ export default class Solution {
         let x = 0;
         let y = 0;
 
+        const previousLocations: Array<any> = [];
+
         let orientation = AxisOrientation.X;
         let direction = 1;
 
-        directions.split(", ").forEach(instruction => {
+        const instructions = directions.split(", ");
+
+        for (let i = 0; i < instructions.length; i++) {
+
+            let instruction = instructions[i];
 
             // left
             if (instruction[0] === "L") {
@@ -28,14 +34,36 @@ export default class Solution {
 
             if (orientation === AxisOrientation.X) {
                 orientation = AxisOrientation.Y;
-                y += (parseInt(instruction.substr(1)) * direction);
+
+                const distance = parseInt(instruction.substr(1));
+
+                for (var j = 0; j < distance; j++) {                    
+                    y += 1 * direction;
+
+                    if (previousLocations.filter(location => location.x === x && location.y === y).length === 1) {
+                        return Math.abs(x) + Math.abs(y); 
+                    }    
+
+                    previousLocations.push({ x: x, y: y });           
+                }
             }
             else {
                 orientation = AxisOrientation.X;
-                x += (parseInt(instruction.substr(1)) * direction);
-            }
-        });
 
-        return Math.abs(x) + Math.abs(y);
+                const distance = parseInt(instruction.substr(1));
+
+                for (var j = 0; j < distance; j++) {                    
+                    x += 1 * direction;
+
+                    if (previousLocations.filter(location => location.x === x && location.y === y).length === 1) {
+                        return Math.abs(x) + Math.abs(y); 
+                    }   
+
+                    previousLocations.push({ x: x, y: y });    
+                }
+            }
+        }
+
+        throw new Error("could not find answer");
     }
 }
