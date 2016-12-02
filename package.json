@@ -1,7 +1,7 @@
 {
   "name": "advent-of-code-2016",
   "version": "1.0.0",
-  "description": "",
+  "description": "Advent of Code 2016 solutions",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
